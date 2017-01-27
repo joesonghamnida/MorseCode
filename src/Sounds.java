@@ -12,7 +12,7 @@ import java.io.InputStream;
  */
 public class Sounds {
 
-    public static void playSound(String soundClip) throws Exception {
+    public static void playSound(String soundClip, long end) throws Exception {
         // open the sound file as a Java input stream
         String soundFile = "/Users/joe/programming/java/MorseCode/"+soundClip;
         InputStream in = new FileInputStream(soundFile);
@@ -22,6 +22,9 @@ public class Sounds {
 
         // play the audio clip with the audioplayer class
         AudioPlayer.player.start(audioStream);
+        if(System.currentTimeMillis() >= end){
+            AudioPlayer.player.stop(audioStream);
+        }
     }
 }
 
