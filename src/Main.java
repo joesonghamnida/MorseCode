@@ -1,3 +1,5 @@
+import sun.audio.AudioPlayer;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -7,14 +9,13 @@ public class Main {
 
     public static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
         mapLettersToCode(letterToCode);
-
         String morseCode = printCode();
         codeToSound(morseCode);
     }
 
-    public static String printCode(){
+    public static String printCode() {
 
         System.out.println("please enter your message: ");
         String message = scanner.nextLine();
@@ -31,15 +32,14 @@ public class Main {
         return morseCode;
     }
 
-    public static void codeToSound(String morseCode)throws Exception{
-        for(int i = 0; i < morseCode.length(); i++) {
+    public static void codeToSound(String morseCode) throws Exception {
+        for (int i = 0; i < morseCode.length(); i++) {
             int time = 0;
             String soundClip = "";
-            if(morseCode.charAt(i) == '.'){
+            if (morseCode.charAt(i) == '.') {
                 time = 10;
                 soundClip = "e.wav";
-            }
-            else if(morseCode.charAt(i) == '-'){
+            } else if (morseCode.charAt(i) == '-') {
                 time = 50;
                 soundClip = "iineShort.wav";
             }
@@ -48,13 +48,14 @@ public class Main {
             long end = t + time;
 
             while (System.currentTimeMillis() < end) {
-                Sounds.playSound(soundClip);
+                Sounds.playSound(soundClip, end);
                 Thread.interrupted();
                 Thread.yield();
             }
-            Thread.sleep(1750);
+            Thread.sleep(1000);
         }
         System.out.println("transmission over");
+        System.exit(0);
     }
 
     public static void mapLettersToCode(HashMap<String, String> letterToCode) {
