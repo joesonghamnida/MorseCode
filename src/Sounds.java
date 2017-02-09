@@ -10,6 +10,9 @@ import java.io.InputStream;
  *
  * @author alvin alexander, devdaily.com.
  */
+
+@Deprecated
+//keeping for future reference purposes
 public class Sounds {
 
     public static void playSound(String soundClip, long end) throws Exception {
