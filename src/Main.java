@@ -1,5 +1,5 @@
-import sun.audio.AudioPlayer;
-
+import javax.sound.midi.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -12,7 +12,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         mapLettersToCode(letterToCode);
         String morseCode = printCode();
-        codeToSound(morseCode);
+        //codeToSound(morseCode);
+        
     }
 
     public static String printCode() {
@@ -32,6 +33,84 @@ public class Main {
         return morseCode;
     }
 
+    public static void codeToSound(String morseCode) throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+        int dot = 200;
+        int dash = 600;
+        int silence = 1000;
+
+        Synthesizer synth = MidiSystem.getSynthesizer();
+        Receiver synthRcvr = synth.getReceiver();
+
+        for (int i = 0; i < morseCode.length(); i++) {
+            synth.open();
+            if (morseCode.charAt(i) == '.') {
+                //synth.open();
+                //Receiver synthRcvr = synth.getReceiver();
+                ShortMessage msg = new ShortMessage();
+                msg.setMessage(ShortMessage.NOTE_ON, i, 60, 93);
+                synthRcvr.send(msg, -1);
+                synthRcvr.close();
+            } else if (morseCode.charAt(i) == '-') {
+                //synth.open();
+                //Receiver synthRcvr = synth.getReceiver();
+                ShortMessage msg = new ShortMessage();
+                msg.setMessage(ShortMessage.NOTE_ON, i, 60, 93);
+                synthRcvr.send(msg, -1);
+                synthRcvr.close();
+            } else if (morseCode.charAt(i) == '/' || morseCode.charAt(i) == ' ') {
+
+            }
+        }
+    }
+
+    /*ShortMessage myMsg = new ShortMessage();
+        // Play the note Middle C (60) moderately loud
+        // (velocity = 93)on channel 4 (zero-based).
+        myMsg.setMessage(ShortMessage.NOTE_ON, 4, 60, 93);
+        Synthesizer synth = MidiSystem.getSynthesizer();
+        Receiver synthRcvr = synth.getReceiver();
+        synthRcvr.send(myMsg, -1); // -1 means no time stamp*/
+
+        /*Synthesizer synth = MidiSystem.getSynthesizer();
+        MidiChannel chan[] = synth.getChannels();
+
+
+        // Check for null; maybe not all 16 channels exist.
+        for (int i = 0; i < 16; i++) {
+            if (chan[i] != null) {
+                //chan[i].noteOn(60, 93);
+                System.out.println(i);
+                synth.open();
+                Receiver synthRcvr = synth.getReceiver();
+                ShortMessage msg = new ShortMessage();
+                msg.setMessage(ShortMessage.NOTE_ON, i, 60, 93);
+                synthRcvr.send(msg, -1);
+                synthRcvr.close();
+                Thread.sleep(250);
+            }
+        }*/
+
+    /*
+    @Deprecated
+    public static void codeToSound(String morseCode) throws InterruptedException {
+        int dot = 200;
+        int dash = 600;
+        int silence = 1000;
+
+        for (int i = 0; i < morseCode.length(); i++) {
+            if (morseCode.charAt(i) == '.') {
+                Toolkit.getDefaultToolkit().beep();
+                Thread.sleep(dot);
+            } else if (morseCode.charAt(i) == '-') {
+                Toolkit.getDefaultToolkit().beep();
+                Thread.sleep(dash);
+            } else if (morseCode.charAt(i) == '/' || morseCode.charAt(i) == ' ') {
+                Thread.sleep(silence);
+            }
+        }
+    }
+
+    @Deprecated
     public static void codeToSound(String morseCode) throws Exception {
         for (int i = 0; i < morseCode.length(); i++) {
             int time = 0;
@@ -56,7 +135,7 @@ public class Main {
         }
         System.out.println("transmission over");
         System.exit(0);
-    }
+    }*/
 
     public static void mapLettersToCode(HashMap<String, String> letterToCode) {
         letterToCode.put("a", ".-");
